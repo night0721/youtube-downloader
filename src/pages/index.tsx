@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Youtube Downlaoder</title>
+        <title>Youtube Downloader</title>
         <link
           rel="shortcut icon"
           href="https://www.youtube.com/s/desktop/066935b0/img/favicon.ico"
@@ -75,7 +75,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 w-full relative top-1/4">
           <h3 className="text-4xl flex justify-center">
             {" "}
-            <FiDownloadCloud /> &nbsp; Youtube Downlaoder{" "}
+            <FiDownloadCloud /> &nbsp; Youtube Downloader{" "}
           </h3>
           <h4 className="text-xs py-1 flex justify-center">
             {" "}

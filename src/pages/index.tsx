@@ -22,16 +22,16 @@ export default function Home() {
     }
   };
 
-  const handleMp4 = async () => {
+  const handle = async (type: string) => {
     const videoID = getVideoID(url);
     setInfo("Processing the video...");
     if (videoID) {
       const title = await getTitle(videoID);
       try {
-        fetch(`/api/download`, {
+        fetch("/api/download", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url, type: "mp4" }),
+          body: JSON.stringify({ url, type }),
         })
           .then(res => res.blob())
           .then(blob => {
@@ -41,7 +41,11 @@ export default function Home() {
                 "Unable to download! Maybe File size is too high. Try to download video less than 5MB"
               );
             } else {
-              download(blob, `${title}.mp4`, "video/mp4");
+              download(
+                blob,
+                `${title}.${type}`,
+                type === "mp3" ? "audio/mpeg" : "video/mp4"
+              );
               setInfo("Ready for download!");
             }
           });
@@ -49,39 +53,6 @@ export default function Home() {
         setInfo(
           "Unable to download! Maybe File size is too high. Try to download video less than 5MB"
         );
-      }
-    } else {
-      setInfo("Invalid URL");
-    }
-  };
-
-  const handleMp3 = async () => {
-    const videoID = getVideoID(url);
-    setInfo("Processing the video...");
-    if (videoID) {
-      const title = await getTitle(videoID);
-      try {
-        const requestOptions = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url, type: "mp3" }),
-        };
-        fetch(`/api/download`, requestOptions)
-          .then(res => res.blob())
-          .then(blob => {
-            const sizeInBytes = blob.size;
-            console.log("sizeInBytes: ", sizeInBytes);
-            if (sizeInBytes <= 0) {
-              setInfo(
-                "Unable to download! Maybe File size is too high. Try to download video less than 5MB"
-              );
-            } else {
-              download(blob, `${title}.mp3`, "audio/mpeg");
-              setInfo("Ready for download!");
-            }
-          });
-      } catch (err) {
-        console.log("err: ", err);
       }
     } else {
       setInfo("Invalid URL");
@@ -126,13 +97,13 @@ export default function Home() {
             <div className="p-3 flex w-full justify-center">
               <button
                 className="p-3 m-1.5 flex w-56 justify-center bg-blue-900 text-white hover:bg-blue-600"
-                onClick={() => handleMp3()}
+                onClick={() => handle("mp3")}
               >
                 Download mp3
               </button>
               <button
                 className="p-3 m-1.5 flex w-48 justify-center bg-blue-900 text-white hover:bg-blue-600"
-                onClick={() => handleMp4()}
+                onClick={() => handle("mp4")}
               >
                 Download mp4
               </button>

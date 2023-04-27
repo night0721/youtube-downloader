@@ -9,16 +9,13 @@ export default function Home() {
 
   const getTitle = async (videoID: string) => {
     const youtubeAPI = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoID}&fields=items(id%2Csnippet)&key=AIzaSyB8Fk-MWT_r8nVgG35gIZoP-DhJYpJ_tZ0`;
-    let response = await fetch(youtubeAPI);
-    const res = await response.json();
-    const title = res.items[0].snippet.title;
-    return title;
+    const response = await fetch(youtubeAPI).then(res => res.json());
+    return response.items[0].snippet.title;
   };
 
   const getVideoID = (url: string) => {
     if (url.match(/watch/)) {
-      const videoID = url.split("/")[3].split("?")[1].split("=")[1];
-      return videoID;
+      return url.split("/")[3].split("?")[1].split("=")[1];
     } else if (url.match(/youtu.be/)) {
       const videoID = url != "" && url.split("/")[3];
       return videoID;
@@ -39,7 +36,6 @@ export default function Home() {
           .then(res => res.blob())
           .then(blob => {
             const sizeInBytes = blob.size;
-            console.log("sizeInBytes: ", sizeInBytes);
             if (sizeInBytes <= 0) {
               setInfo(
                 "Unable to download! Maybe File size is too high. Try to download video less than 5MB"

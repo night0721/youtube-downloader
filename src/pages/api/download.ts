@@ -28,3 +28,9 @@ export default async function handler(
     res.status(405).json({ message: "Method not allowed", code: 405 });
   }
 }
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};

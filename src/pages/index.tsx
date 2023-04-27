@@ -64,7 +64,11 @@ export default function Home() {
     <div>
       <Head>
         <title>Youtube Downlaoder</title>
-        <link rel="icon" href="/icon.png" />
+        <link
+          rel="shortcut icon"
+          href="https://www.youtube.com/s/desktop/066935b0/img/favicon.ico"
+          type="image/x-icon"
+        />
       </Head>
 
       <div className="py-12 w-full  h-screen">

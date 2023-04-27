@@ -28,13 +28,13 @@ export default function Home() {
     if (videoID) {
       const title = await getTitle(videoID);
       try {
-        fetch("/api/download", {
+        fetch("https://service-api.night0721.repl.co/api/download", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url, type }),
         })
           .then(res => res.blob())
-          .then(blob => {
+          .then(async blob => {
             const sizeInBytes = blob.size;
             if (sizeInBytes <= 0) {
               setInfo(
@@ -50,6 +50,7 @@ export default function Home() {
             }
           });
       } catch (err) {
+        console.error(err);
         setInfo(
           "Unable to download! Maybe File size is too high. Try to download video less than 5MB"
         );
